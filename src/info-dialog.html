@@ -1,0 +1,100 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<script src="../bower_components/qr-js/qr.min.js"></script>
+
+<dom-module id="info-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-dialog {
+        overflow: auto;
+      }
+
+      paper-button {
+        background: var(--primary-color);
+        color: var(--text-primary-color);
+      }
+
+      #dialog {
+        max-width: 600px;
+      }
+
+      .highlight {
+        font-weight: 600;
+      }
+
+      .instructions {
+        display: flex;
+      }
+
+      #close-button {
+        margin: 0 16px 16px 0;
+      }
+
+      #qr {
+        align-self: center;
+        margin-left: 32px;
+        height: 150px;
+        width: 150px;
+      }
+
+      @media (max-width: 600px) {
+        #qr {
+          display: none;
+        }
+      }
+    </style>
+
+    <paper-dialog id="dialog" modal>
+      <h2>Welcome to slip Manager</h2>
+      <div class="dialog-body">
+        <div class="instructions">
+          <div class="text">
+            <p>
+              A Private app for managing orders like alternation slips and claim refunds.
+            </p>
+          </div>
+          <canvas id="qr"></canvas>
+        </div>
+      </div>
+      <div class="buttons">
+        <paper-button id="close-button" raised on-tap="close">Got it!</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'info-dialog',
+        properties: {
+          url: String
+        },
+        open: function() {
+          this.url = window.location.href;
+          this._updateQR();
+          this.$.dialog.open();
+        },
+        close: function() {
+          var _this = this;
+          this.async(function() {
+            _this.$.dialog.close();
+          }, 10);
+        },
+        _updateQR: function() {
+          qr.canvas({
+            canvas: this.$.qr,
+            value: this.url,
+            size: 6
+          });
+        }
+      });
+    })();
+  </script>
+</dom-module>

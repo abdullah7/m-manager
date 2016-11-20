@@ -1,0 +1,39 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="slips-list.html">
+<dom-module id="content-panel">
+  <template>
+    <style>
+      :host {
+        display: flex;
+      }
+
+      #list {
+        flex: 1;
+      }
+
+      @media (max-width: 1124px) {
+        #list {
+          margin-bottom: 290px;
+          margin-left: 0px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        #list {
+          margin-bottom: 0;
+          margin-left: 0px;
+        }
+      }
+    </style>
+    <slips-list id="list" slips="[[slips]]" filters="[[filters]]"></slips-list>
+  </template>
+  <script>
+    Polymer({
+      is: 'content-panel',
+      properties: {
+        slips: Array,
+        filters: Object
+      }
+    });
+  </script>
+</dom-module>
